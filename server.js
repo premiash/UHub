@@ -20,7 +20,8 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 app.use(express.static("./public"));
-app.use('/assets', express.static('./public/theme/material/assets'))
+app.use('/assets', express.static('./public/theme/material/assets')) //Design prototype
+app.use('/theme', express.static('./public/theme/material/')) //Limitless Theme
 
 // -------------------------------------------------
 
@@ -44,6 +45,12 @@ app.get("/", function(req, res) {
 });
 
 //TODO: Express Routes here
+//Limitless theme
+app.get("/theme", function(req, res) {
+  res.sendFile(__dirname + "/public/theme/material/index.html")
+});
+
+//Login Route using Theme (Design prototype)
 app.get("/login", function(req, res) {
   res.sendFile(__dirname + "/public/theme/material/_uhub_login_simple.html")
 });
