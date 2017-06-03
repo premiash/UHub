@@ -20,6 +20,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 app.use(express.static("./public"));
+app.use('/assets', express.static('./public/theme/material/assets'))
 
 // -------------------------------------------------
 
@@ -43,7 +44,9 @@ app.get("/", function(req, res) {
 });
 
 //TODO: Express Routes here
-
+app.get("/login", function(req, res) {
+  res.sendFile(__dirname + "/public/theme/material/_uhub_login_simple.html")
+});
 
 // -------------------------------------------------
 
