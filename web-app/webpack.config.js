@@ -16,22 +16,31 @@ module.exports = {
                 use: [
                     'style-loader',
                     'css-loader'
+                ],
+                include: [
+                      /assets/
                 ]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
                     'file-loader'
+                    ],
+                include: [
+                    /assets/
                     ]
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 use: [
                   'file-loader'
-                  ]
+                  ],
+                include: [
+                  /assets/
+                ]
           },
           {
-            test: /\.js$/,
+            test: /\.(js|jsx)$/,
             loader: 'babel-loader',
             query: {
               presets: [

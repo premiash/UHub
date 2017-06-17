@@ -1,3 +1,6 @@
+import CSSModules from 'react-css-modules';
+import styles from './../../assets/css/table.css';
+
 // Include React
 var React = require("react");
 
@@ -38,9 +41,15 @@ var Main = React.createClass({
           <div className="jumbotron">
             <h2 className="text-center">Hello!!</h2>
             <p className="text-center">
-              <em>This is a starter page!!!</em>
+              <em>This is a starter page!!</em>
             </p>
           </div>
+        </div>
+        <div styleName='table'>
+            <div styleName='row'>
+                <div styleName='cell'>A0 {this.state.count}</div>
+                <div styleName='cell'>B0</div>
+            </div>
         </div>
       </div>
     );
