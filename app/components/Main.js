@@ -38,7 +38,7 @@ var Main = React.createClass({
           <div className="jumbotron">
             <h2 className="text-center">Hello!!</h2>
             <p className="text-center">
-              <em>This is a starter page</em>
+              <em>This is a starter page!!!</em>
             </p>
           </div>
         </div>

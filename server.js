@@ -20,8 +20,14 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 app.use(express.static("./public"));
-app.use('/assets', express.static('./public/theme/material/assets')) //Design prototype
-app.use('/theme', express.static('./public/theme/material/')) //Limitless Theme
+//Limitless Theme
+app.use('/theme', express.static('./public/theme/material/'))
+app.use('/assets', express.static('./public/theme/material/assets')) 
+
+//Design prototype
+app.use('/prototype', express.static('./public/theme/material/'))
+app.use('/prototype/home', express.static('./public/theme/material/_uhub_index.html'))
+app.use('/prototype/assets', express.static('./public/theme/material/assets'))
 
 // -------------------------------------------------
 
@@ -50,9 +56,14 @@ app.get("/theme", function(req, res) {
   res.sendFile(__dirname + "/public/theme/material/index.html")
 });
 
+app.get("/prototype", function(req, res) {
+  res.sendFile(__dirname + "/public/theme/material/_uhub_index.html")
+});
+
+
 //Login Route using Theme (Design prototype)
 app.get("/login", function(req, res) {
-  res.sendFile(__dirname + "/public/theme/material/_uhub_login_simple.html")
+  res.sendFile(__dirname + "/public/theme/material/_uhub_login.html")
 });
 
 // -------------------------------------------------

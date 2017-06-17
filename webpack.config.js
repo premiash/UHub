@@ -10,20 +10,55 @@ module.exports = {
 
   // This section desribes the transformations we will perform
   module: {
-    loaders: [
-      {
-        // Only working with files that in in a .js or .jsx extension
-        test: /\.jsx?$/,
-        // Webpack will only process files in our app folder. This avoids processing
-        // node modules and server files unnecessarily
-        include: /app/,
-        loader: "babel",
-        query: {
-          // These are the specific transformations we'll be using.
-          presets: ["react", "es2015"]
-        }
-      }
-    ]
+    rules: [
+            {
+                test: /\.css/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    'file-loader'
+                    ]
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [
+                  'file-loader'
+                  ]
+          },
+          {
+            test: /\.js$/,
+            loader: 'babel-loader',
+            query: {
+              presets: [
+                'es2015',
+                'react'
+              ],
+              plugins: []
+            },
+            include: [
+              //path.resolve(__dirname, 'app')
+              /app/
+            ]
+          }
+
+        //   {
+        //         // Only working with files that in in a .js or .jsx extension
+        //         test: /\.(js|jsx)?$/,
+        //         // Webpack will only process files in our app folder. This avoids processing
+        //         // node modules and server files unnecessarily
+        //         include: /app/,
+        //         use: [ "babel-loader" ],
+        //         // query: {
+        //         //   // These are the specific transformations we'll be using.
+        //         //   presets: ["react", "es2015"]
+        //         // }
+        // }
+      ]
   },
   // This lets us debug our react code in chrome dev tools. Errors will have lines and file names
   // Without this the console says all errors are coming from just coming from bundle.js
