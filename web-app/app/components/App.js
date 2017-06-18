@@ -53,7 +53,7 @@ var App = React.createClass({
           <div className={"navbar-collapse collapse"} id="navbar-mobile">
             <div className={"navbar-right"}>
               <p className={"navbar-text"}>Advertise</p>
-              <p className={"navbar-text"}><span className={"label bg-success-400"}>Sign Up</span></p>
+              <p className={"navbar-text"}><a href="./register"><span className={"label bg-success-400"}>Sign Up</span></a></p>
               <p className={"navbar-text"}><a href="./login">Sign In</a></p>
             </div>
           </div>
