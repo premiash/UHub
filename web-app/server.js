@@ -45,30 +45,10 @@ db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
 
-// -------------------------------------------------
-
-// Main "/" Route. This will redirect the user to our rendered React application
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/public/index.html");
-});
-
-//TODO: Express Routes here
-//Limitless theme
-app.get("/theme", function(req, res) {
-  res.sendFile(__dirname + "/public/theme/material/index.html")
-});
-
-app.get("/prototype", function(req, res) {
-  res.sendFile(__dirname + "/public/theme/material/_uhub_index.html")
-});
-
-
-//Login Route using Theme (Design prototype)
-app.get("/login", function(req, res) {
-  res.sendFile(__dirname + "/public/theme/material/_uhub_login.html")
-});
-
-// -------------------------------------------------
+//Express router
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
 
 // Listener
 app.listen(PORT, function() {
