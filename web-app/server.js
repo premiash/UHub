@@ -3,6 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var path = require('path');
 
 //TODO: Require Schemas here 
 
@@ -20,6 +21,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 app.use(express.static("./public"));
+app.use('/public/assets/fonts', express.static(path.join(__dirname, './public/assets/fonts')));
 //Limitless Theme
 app.use('/theme', express.static('./public/theme/material/'))
 app.use('/assets', express.static('./public/theme/material/assets')) 

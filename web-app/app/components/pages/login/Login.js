@@ -1,7 +1,11 @@
 import CSSModules from 'react-css-modules';
 import styles from './../../../../assets/css/table.css';
 
+//Theme imports
 import ThemeCSS from './../../../theme_modules/theme-css.js'
+//import ThemeCoreLib from './../../../theme_modules/theme-core-lib.js'
+//import ThemeApp from './../../../theme_modules/theme-app.js'
+//import ThemePlugins from './../../../theme_modules/theme-plugins-lib.js'
 
 // Include React
 var React = require("react");
@@ -38,20 +42,54 @@ var Login = React.createClass({
   // Here we render the function
   render: function() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="jumbotron">
-            <h2 className="text-center">Hello!!</h2>
-            <p className="text-center">
-              <em>This is a Login page!!</em>
-            </p>
+      <div className={"login-container"}>
+        <div className={'navbar navbar-inverse bg-indigo'}>
+          <div className={"navbar-header"}>
+            <a className={"navbar-brand"} href="_uhub_index.html">UHub</a>
+
+            <ul className={"nav navbar-nav pull-right visible-xs-block"}>
+              <li><a data-toggle="collapse" data-target="#navbar-mobile"><i className={"icon-tree5"}></i></a></li>
+            </ul>
           </div>
         </div>
-        <div styleName='table'>
-            <div styleName='row'>
-                <div styleName='cell'>A0 {this.state.count}</div>
-                <div styleName='cell'>B0</div>
+        <div className={'page-container'}>
+          <div className={"page-content"}>
+            <div className={"content-wrapper"}>
+              <div className={"content"}>
+                <form action="./_uhub_user_profile.html">
+                  <div className={"panel panel-body login-form"}>
+                    <div className={"text-center"}>
+                      <div className={"icon-object border-slate-300 text-slate-300"}>
+                          <i className={"icon-reading"}></i>
+                      </div>
+                      <h5 className={"content-group"}>Login to your account <small className={"display-block"}>Enter your credentials below</small></h5>
+                    </div>
+                    <div className={"form-group has-feedback has-feedback-left"}>
+                      <input type="text" className={"form-control"} placeholder="Username"/>
+                      <div className={"form-control-feedback"}>
+                        <i className={"icon-user text-muted"}></i>
+                      </div>
+                    </div>
+                    <div className={"form-group has-feedback has-feedback-left"}>
+                      <input type="text" className={"form-control"} placeholder="Password" />
+                      <div className={"form-control-feedback"}>
+                        <i className={"icon-lock2 text-muted"}></i>
+                      </div>
+                    </div>
+                    <div className={"form-group"}>
+                      <button type="submit" className={"btn bg-pink-400 btn-block"}>Sign in <i className={"icon-circle-right2 position-right"}></i></button>
+                    </div>
+                    <div className={"text-center"}>
+                      <a href="_uhub_password_reset.html">Forgot password?</a>
+                    </div>
+                  </div>
+                </form>
+                <div className={"footer text-muted text-center"}>
+                  &copy; 2017. <a href="#">UHub</a> by <a href="#">Ashmy Selvamony</a>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
       </div>
     );
