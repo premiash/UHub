@@ -24,7 +24,7 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
-                    'file-loader'
+                    'file-loader?limit=1024&name=public/assets/images/[name].[ext]'
                     ],
                 include: [
                     /assets/
@@ -33,7 +33,7 @@ module.exports = {
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 use: [
-                  'file-loader'
+                  'file-loader?limit=1024&name=public/assets/fonts/[name].[ext]'
                   ],
                 include: [
                   /assets/
