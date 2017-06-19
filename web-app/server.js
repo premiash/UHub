@@ -34,7 +34,7 @@ app.use('/prototype/assets', express.static('./public/theme/material/assets'))
 // -------------------------------------------------
 
 // MongoDB Configuration configuration (Change this URL to your own DB)
-mongoose.connect("mongodb://sysmongorw:abc*123@ds161121.mlab.com:61121/heroku_9ln537cf");
+mongoose.connect("mongodb://sysuhubrw:abc*123@ds161121.mlab.com:61121/heroku_9ln537cf");
 var db = mongoose.connection;
 
 db.on("error", function(err) {
