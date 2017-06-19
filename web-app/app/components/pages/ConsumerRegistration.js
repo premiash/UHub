@@ -5,7 +5,6 @@ import ThemeCSS from './../../theme_modules/theme-css.js'
 
 // Include React
 var React = require("react");
-
 //TODO: Here we include all of the sub-components
 
 
@@ -35,6 +34,21 @@ var ConsumerRegistration = React.createClass({
   setTerm: function(term) {
     this.setState({ searchTerm: term });
   },
+
+  handleSubmit(event) {
+    event.preventDefault()
+    //const emailaddress = event.target.elements[0].value
+    //const password = event.target.elements[1].value
+    //console.log("Email address:" + emailaddress)
+    //console.log("Password:" + password)
+
+    //helpers.registerUser(emailaddress, password)
+    helpers.registerUser("emailaddress", "password")
+
+    //const path = `/repos/${userName}/${repo}`
+    //this.context.router.push(path)
+  },
+
   // Here we render the function
   render: function() {
     return (
@@ -43,7 +57,7 @@ var ConsumerRegistration = React.createClass({
             <div className={"page-content"}>
                 <div className={"content-wrapper"}>
                     <div className={"content"}>
-                        <form action="index.html">
+                        <form>
                             <div className={"panel panel-body login-form"}>
                                 <div className={"text-center"}>
                                     <div className={"icon-object border-success text-success"}>
@@ -54,7 +68,7 @@ var ConsumerRegistration = React.createClass({
                                 <div className={"content-divider text-muted form-group"}>
                                     <span>Your credentials</span></div>
                                 <div className={"form-group has-feedback has-feedback-left"}>
-                                    <input type="text" className={"form-control"} placeholder="Eugene" />
+                                    <input type="text" className={"form-control"} placeholder="Email address" />
                                     <div className={"form-control-feedback"}>
                                         <i className={"icon-user-check text-muted"}></i>
                                     </div>
@@ -69,7 +83,8 @@ var ConsumerRegistration = React.createClass({
                                         <i className={"icon-user-lock text-muted"}></i>
                                     </div>
                                 </div>
-                                <button type="submit" className={"btn bg-pink-400 btn-block btn-lg"}>
+                                <button type="submit" className={"btn bg-pink-400 btn-block btn-lg"} 
+                                onClick={this.handleSubmit}>
                                     Register <i className={"icon-circle-right2 position-right"}></i></button>
                             </div>
                         </form>

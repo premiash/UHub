@@ -6,7 +6,7 @@ var mongoose = require("mongoose");
 var path = require('path');
 
 //TODO: Require Schemas here 
-
+var User = require("./models/User.js")
 
 // Create Instance of Express
 var app = express();
@@ -49,6 +49,27 @@ db.once("open", function() {
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
+
+app.post("/register", function(req, res) {
+  // Save an empty result object
+  var result = {};
+  result.emailaddress = "premiash@gmail.com";
+  result.password = "123456";
+
+  var entry = new User(result);
+
+  // Now, save that entry to the db
+  entry.save(function(err, doc) {
+      // Log any errors
+      if (err) {
+        console.log(err);
+      }
+      // Or log the doc
+      else {
+        console.log(doc);
+      }
+  });  
+});
 
 // Listener
 app.listen(PORT, function() {

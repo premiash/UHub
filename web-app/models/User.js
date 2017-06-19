@@ -8,9 +8,12 @@ var UserSchema = new Schema({
   lastname: {
     type: String
   },
-  emailadress: {
+  emailaddress: {
     type: String
   },
+  password: {
+    type: String
+  }, 
   status: {
     type: String
   }
