@@ -12,6 +12,15 @@ var helper = {
                 if(response.data.status == "success")
                     callback("success", context)
         })
+    },
+
+    consumerLogin: function(emailaddress, password, context, callback) {
+        axios.post("/consumer-login", { emailaddress: emailaddress, password: password })
+            .then(function(response) {
+                console.log(response.data)
+                if(response.data.status == "success")
+                    callback("success", context)
+        })
     }
 };
 // We export the API helper

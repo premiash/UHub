@@ -11,10 +11,11 @@ var flash = require('connect-flash');
 
 // Create Instance of Express
 var app = express();
+// require("./api-routes")(app);
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'js');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'js');
 
 // Sets an initial port. We'll use this later in our listener
 var PORT = process.env.PORT || 3000;
@@ -37,7 +38,16 @@ app.use(passport.session());
 
 //TODO: Require Schemas here 
 var User = require("./models/User.js")
-passport.use(new LocalStrategy(User.authenticate()));
+//passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new Strategy(
+  function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false); }
+      return cb(null, user);
+    });
+  }));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -51,6 +61,8 @@ app.use('/assets', express.static('./public/theme/material/assets'))
 app.use('/prototype', express.static('./public/theme/material/'))
 app.use('/prototype/home', express.static('./public/theme/material/_uhub_index.html'))
 app.use('/prototype/assets', express.static('./public/theme/material/assets'))
+
+//app.use('/', routes);
 
 // -------------------------------------------------
 
@@ -71,10 +83,36 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-app.get('/login1', (req, res) => {
-    res.render('/', { });
+app.post('/consumer-login', (req, res, next) => {
+    console.log("/consumer-login")
+    passport.authenticate("s.shinelin@gmail.com", "shilin123", function(err, res, error){
+        console.log(err)
+        console.log(res)
+        console.log(error)
+    })
+    // passport.use(new LocalStrategy(
+    //   function(username, password, done) {
+    //     User.findOne({ username: username }, function (err, user) {
+    //       if (err) { return done(err); }
+    //       if (!user) { return done(null, false); }
+    //       if (!user.verifyPassword(password)) { return done(null, false); }
+    //       return done(null, user);
+    //     });
+    //   }
+    // ));  
 });
 
+// app.post('/consumer-login', 
+//           passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), 
+//           (req, res, next) => {
+//             console.log("/consumer-login")
+//             req.session.save((err) => {
+//                 if (err) {
+//                     return next(err);
+//                 }
+//                 res.redirect('/');
+//             });
+// });
 
 app.post("/register", function(req, res, next) {
   console.log(req.body.emailaddress)
@@ -105,6 +143,8 @@ app.post("/register", function(req, res, next) {
       });
   });
 });
+
+
 
 // Listener
 app.listen(PORT, function() {

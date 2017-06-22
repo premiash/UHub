@@ -34,10 +34,22 @@ var Login = React.createClass({
 
   //TODO
   },
-  //TODO This function allows childrens to update the parent.
-  setTerm: function(term) {
-    this.setState({ searchTerm: term });
+
+  handleSubmit(event) {
+    event.preventDefault()    
+    const emailaddress = event.target.elements[0].value
+    const password = event.target.elements[1].value
+    // console.log("Email address:" + emailaddress)
+    // console.log("Password:" + password)
+
+    helpers.consumerLogin(emailaddress, password, this.context, function(status, context){
+        if(status == "success")
+        {
+            context.router.push("/")
+        }
+    })
   },
+
   // Here we render the function
   render: function() {
     return (
@@ -46,7 +58,7 @@ var Login = React.createClass({
           <div className={"page-content"}>
             <div className={"content-wrapper"}>
               <div className={"content"}>
-                <form action="./_uhub_user_profile.html">
+                <form onSubmit={this.handleSubmit}>
                   <div className={"panel panel-body login-form"}>
                     <div className={"text-center"}>
                       <div className={"icon-object border-slate-300 text-slate-300"}>
@@ -61,7 +73,7 @@ var Login = React.createClass({
                       </div>
                     </div>
                     <div className={"form-group has-feedback has-feedback-left"}>
-                      <input type="text" className={"form-control"} placeholder="Password" />
+                      <input type="password" className={"form-control"} placeholder="Password" />
                       <div className={"form-control-feedback"}>
                         <i className={"icon-lock2 text-muted"}></i>
                       </div>
