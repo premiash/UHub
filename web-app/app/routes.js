@@ -8,7 +8,7 @@ import ConsumerRegistration from './components/pages/ConsumerRegistration'
 import Login from './components/pages/Login'
 import PasswordReset from './components/pages/PasswordReset'
 
-module.exports = (
+var router = module.exports = (
     <Route path="/" component={App} >
         <IndexRoute component={Home}/>
         <Route path="/register" component={ConsumerRegistration}/>

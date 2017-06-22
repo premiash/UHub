@@ -5,11 +5,17 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 var path = require('path');
 
-//TODO: Require Schemas here 
-var User = require("./models/User.js")
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
 
 // Create Instance of Express
 var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'js');
+
 // Sets an initial port. We'll use this later in our listener
 var PORT = process.env.PORT || 3000;
 
@@ -19,6 +25,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(flash());
+app.use(passport.session());
+
+//TODO: Require Schemas here 
+var User = require("./models/User.js")
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use(express.static("./public"));
 app.use('/public/assets/fonts', express.static(path.join(__dirname, './public/assets/fonts')));
@@ -50,25 +71,39 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-app.post("/register", function(req, res) {
+app.get('/login1', (req, res) => {
+    res.render('/', { });
+});
+
+
+app.post("/register", function(req, res, next) {
+  console.log(req.body.emailaddress)
+  console.log(req.body.password)
+
   // Save an empty result object
   var result = {};
-  result.emailaddress = "premiash@gmail.com";
-  result.password = "123456";
+  result.emailaddress = req.body.emailaddress;
+  result.password = req.body.password;
 
-  var entry = new User(result);
-
-  // Now, save that entry to the db
-  entry.save(function(err, doc) {
-      // Log any errors
+  User.register(new User({ username : result.emailaddress }), result.password, (err, user) => {
       if (err) {
-        console.log(err);
+        console.log("auth err")
+        //return res.redirect('/', { error : err.message });
+        res.json({ error : err.message })
       }
-      // Or log the doc
-      else {
-        console.log(doc);
-      }
-  });  
+      res.json({ status : "success" })
+      passport.authenticate('local')(req, res, () => {
+          req.session.save((err) => {
+              if (err) {
+                console.log(err)
+                  //return next(err);
+              }
+              console.log("Authenticated")
+              //return "success"
+              //res.redirect('/');
+          });
+      });
+  });
 });
 
 // Listener

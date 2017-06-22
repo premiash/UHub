@@ -14,6 +14,10 @@ var helpers = require("./../utils/helpers");
 // Creating the Main component
 var ConsumerRegistration = React.createClass({
 
+    contextTypes: {
+        router: React.PropTypes.object
+    },
+
   // Here we set a generic state associated with the number of clicks
   // Note how we added in this history state variable
   getInitialState: function() {
@@ -36,17 +40,18 @@ var ConsumerRegistration = React.createClass({
   },
 
   handleSubmit(event) {
-    event.preventDefault()
-    //const emailaddress = event.target.elements[0].value
-    //const password = event.target.elements[1].value
-    //console.log("Email address:" + emailaddress)
-    //console.log("Password:" + password)
+    event.preventDefault()    
+    const emailaddress = event.target.elements[0].value
+    const password = event.target.elements[1].value
+    console.log("Email address:" + emailaddress)
+    console.log("Password:" + password)
 
-    //helpers.registerUser(emailaddress, password)
-    helpers.registerUser("emailaddress", "password")
-
-    //const path = `/repos/${userName}/${repo}`
-    //this.context.router.push(path)
+    helpers.registerUser(emailaddress, password, this.context, function(status, context){
+        if(status == "success")
+        {
+            context.router.push("/")
+        }
+    })
   },
 
   // Here we render the function
@@ -57,7 +62,7 @@ var ConsumerRegistration = React.createClass({
             <div className={"page-content"}>
                 <div className={"content-wrapper"}>
                     <div className={"content"}>
-                        <form>
+                        <form onSubmit={this.handleSubmit}>
                             <div className={"panel panel-body login-form"}>
                                 <div className={"text-center"}>
                                     <div className={"icon-object border-success text-success"}>
@@ -78,13 +83,12 @@ var ConsumerRegistration = React.createClass({
                                     </span>*/}
                                 </div>
                                 <div className={"form-group has-feedback has-feedback-left"}>
-                                    <input type="text" className={"form-control"} placeholder="Create password" />
+                                    <input type="password" className={"form-control"} placeholder="Create password" />
                                     <div className={"form-control-feedback"}>
                                         <i className={"icon-user-lock text-muted"}></i>
                                     </div>
                                 </div>
-                                <button type="submit" className={"btn bg-pink-400 btn-block btn-lg"} 
-                                onClick={this.handleSubmit}>
+                                <button type="submit" className={"btn bg-pink-400 btn-block btn-lg"} >
                                     Register <i className={"icon-circle-right2 position-right"}></i></button>
                             </div>
                         </form>
