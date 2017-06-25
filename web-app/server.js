@@ -9,6 +9,35 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
+//TODO: Require Schemas here 
+var User = require("./models/User.js")
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// passport.use("local", new LocalStrategy(
+//   function(username, password, cb) {
+//     console.log("Passport test" + username)
+//     //db.users.findByUsername(username, function(err, user) {
+//       User.findByUsername(username, function(err, user) {
+//       if (err) { return cb(err); }
+//       if (!user) { return cb(null, false); }
+//       if (user.password != password) { return cb(null, false); }
+//       return cb(null, user);
+//     });
+//   }));
+
+// passport.serializeUser(function(user, cb) {
+//   cb(null, user.id);
+// });
+
+// passport.deserializeUser(function(id, cb) {
+//   db.users.findById(id, function (err, user) {
+//     if (err) { return cb(err); }
+//     cb(null, user);
+//   });
+// });
+
 // Create Instance of Express
 var app = express();
 // require("./api-routes")(app);
@@ -32,24 +61,10 @@ app.use(require('express-session')({
     resave: false,
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(flash());
 app.use(passport.session());
-
-//TODO: Require Schemas here 
-var User = require("./models/User.js")
-//passport.use(new LocalStrategy(User.authenticate()));
-passport.use(new Strategy(
-  function(username, password, cb) {
-    db.users.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false); }
-      return cb(null, user);
-    });
-  }));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 app.use(express.static("./public"));
 app.use('/public/assets/fonts', express.static(path.join(__dirname, './public/assets/fonts')));
@@ -83,36 +98,37 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-app.post('/consumer-login', (req, res, next) => {
-    console.log("/consumer-login")
-    passport.authenticate("s.shinelin@gmail.com", "shilin123", function(err, res, error){
-        console.log(err)
-        console.log(res)
-        console.log(error)
-    })
-    // passport.use(new LocalStrategy(
-    //   function(username, password, done) {
-    //     User.findOne({ username: username }, function (err, user) {
-    //       if (err) { return done(err); }
-    //       if (!user) { return done(null, false); }
-    //       if (!user.verifyPassword(password)) { return done(null, false); }
-    //       return done(null, user);
-    //     });
-    //   }
-    // ));  
-});
-
-// app.post('/consumer-login', 
-//           passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), 
-//           (req, res, next) => {
-//             console.log("/consumer-login")
-//             req.session.save((err) => {
-//                 if (err) {
-//                     return next(err);
-//                 }
-//                 res.redirect('/');
-//             });
+// app.post('/consumer-login', (req, res, next) => {
+//     console.log("/consumer-login")
+//     // passport.authenticate("s.shinelin@gmail.com", "shilin123", function(err, res, error){
+//     //     console.log(err)
+//     //     console.log(res)
+//     //     console.log(error)
+//     // })
+//     var username = "s.shinelin@gmail.com"
+//     passport.use(new LocalStrategy(
+//       function(username, password, done) {
+//         User.findOne({ username: username }, function (err, user) {
+//           if (err) { return done(err); }
+//           if (!user) { return done(null, false); }
+//           if (!user.verifyPassword(password)) { return done(null, false); }
+//           return done(null, user);
+//         });
+//       }
+//     ));  
 // });
+
+app.post('/consumer-login', 
+          passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), 
+          (req, res, next) => {
+            console.log("/consumer-login")
+            req.session.save((err) => {
+                if (err) {
+                    return next(err);
+                }
+                res.redirect('/');
+            });
+});
 
 app.post("/register", function(req, res, next) {
   console.log(req.body.emailaddress)
