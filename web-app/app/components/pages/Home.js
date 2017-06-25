@@ -44,79 +44,13 @@ var Home = React.createClass({
                 <div className={"content-wrapper"}>
                     <div className={"content"}>
                         <div className={"row"}>
-                            <div className={"col-lg-12"}>
-                                <div className={"panel panel-flat"}>
-                                    <div className={"panel-heading"}>
-                                        <h6 className={"panel-title"}>Traffic sources</h6>
-                                        <div className={"heading-elements"}>
-                                            <form className={"heading-form"} action="#">
-                                                <div className={"form-group"}>
-                                                    <label className={"checkbox-inline checkbox-switchery checkbox-right switchery-xs"}>
-                                                        <input type="checkbox" className={"switch"} checked="checked" />
-                                                        Live update:
-                                                    </label>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div className={"container-fluid"}>
-                                        <div className={"row"}>
-                                            <div className={"col-lg-4"}>
-                                                <ul className={"list-inline text-center"}>
-                                                    <li>
-                                                        <a href="#" className={"btn border-teal text-teal btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"}>
-                                                            <i className={"icon-plus3"}></i></a>
-                                                    </li>
-                                                    <li className={"text-left"}>
-                                                        <div className={"text-semibold"}>New visitors</div>
-                                                        <div className={"text-muted"}>2,349 avg</div>
-                                                    </li>
-                                                </ul>
-                                                <div className={"col-lg-10 col-lg-offset-1"}>
-                                                    <div className={"content-group"} id="new-visitors"></div>
-                                                </div>
-                                            </div>
-                                            <div className={"col-lg-4"}>
-                                                <ul className={"list-inline text-center"}>
-                                                    <li>
-                                                        <a href="#" className={"btn border-warning-400 text-warning-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"}>
-                                                            <i className={"icon-watch2"}></i></a>
-                                                    </li>
-                                                    <li className={"text-left"}>
-                                                        <div className={"text-semibold"}>New sessions</div>
-                                                        <div className={"text-muted"}>08:20 avg</div>
-                                                    </li>
-                                                </ul>
-                                                <div className={"col-lg-10 col-lg-offset-1"}>
-                                                    <div className={"content-group"} id="new-sessions"></div>
-                                                </div>
-                                            </div>
-                                            <div className={"col-lg-4"}>
-                                                <ul className={"list-inline text-center"}>
-                                                    <li>
-                                                        <a href="#" className={"btn border-indigo-400 text-indigo-400 btn-flat btn-rounded btn-icon btn-xs valign-text-bottom"}>
-                                                            <i className={"icon-people"}></i></a>
-                                                    </li>
-                                                    <li className={"text-left"}>
-                                                        <div className={"text-semibold"}>Total online</div>
-                                                        <div className={"text-muted"}><span className={"status-mark border-success position-left"}></span> 5,378 avg</div>
-                                                    </li>
-                                                </ul>
-                                                <div className={"col-lg-10 col-lg-offset-1"}>
-                                                    <div className={"content-group"} id="total-online"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className={"position-relative"} id="traffic-sources"></div>
-                                </div>
-                            </div>
+                            <img src="assets/images/home.jpg" className={"img-responsive"} alt="" />
                         </div>
                         <div className={"row"}>
                             <div className={"col-lg-12"}>
                                 <div className={"panel panel-flat"}>
                                     <div className={"panel-heading"}>
-                                        <h6 className={"panel-title"}>Latest posts</h6>
+                                        <h6 className={"panel-title"}>Services</h6>
                                         <div className={"heading-elements"}>
                                             <ul className={"icons-list"}>
                                                 <li><a data-action="collapse"></a></li>
@@ -134,15 +68,15 @@ var Home = React.createClass({
                                                             <div className={"thumb"}>
                                                                 <a href="#">
                                                                     <img src="assets/images/placeholder.jpg" className={"img-responsive img-rounded media-preview"} alt="" />
-                                                                    <span className={"zoom-image"}><i className={"icon-play3"}></i></span>
+                                                                    <span className={"zoom-image"}></span>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                         <div className={"media-body"}>
-                                                            <h6 className={"media-heading"}><a href="#">Up unpacked friendly</a></h6>
+                                                            <h6 className={"media-heading"}><a href="#">Painting</a></h6>
                                                             <ul className={"list-inline list-inline-separate text-muted mb-5"}>
                                                                 <li><i className={"icon-book-play position-left"}></i> Video tutorials</li>
-                                                                <li>14 minutes ago</li>
+                                                                <li>Piscataway, NJ</li>
                                                             </ul>
                                                             The him father parish looked has sooner. Attachment frequently gay terminated son...
                                                         </div>
@@ -152,15 +86,15 @@ var Home = React.createClass({
                                                             <div className={"thumb"}>
                                                                 <a href="#">
                                                                     <img src="assets/images/placeholder.jpg" className={"img-responsive img-rounded media-preview"} alt="" />
-                                                                    <span className={"zoom-image"}><i className={"icon-play3"}></i></span>
+                                                                    <span className={"zoom-image"}></span>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                         <div className={"media-body"}>
-                                                            <h6 className={"media-heading"}><a href="#">It allowance prevailed</a></h6>
+                                                            <h6 className={"media-heading"}><a href="#">Landscaping</a></h6>
                                                             <ul className={"list-inline list-inline-separate text-muted mb-5"}>
                                                                 <li><i className={"icon-book-play position-left"}></i> Video tutorials</li>
-                                                                <li>12 days ago</li>
+                                                                <li>New Brunswick, NJ</li>
                                                             </ul>
                                                             Alteration literature to or an sympathize mr imprudence. Of is ferrars subject as enjoyed...
                                                         </div>
@@ -174,15 +108,15 @@ var Home = React.createClass({
                                                             <div className={"thumb"}>
                                                                 <a href="#">
                                                                     <img src="assets/images/placeholder.jpg" className={"img-responsive img-rounded media-preview"} alt="" />
-                                                                    <span className={"zoom-image"}><i className={"icon-play3"}></i></span>
+                                                                    <span className={"zoom-image"}></span>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                         <div className={"media-body"}>
-                                                            <h6 className={"media-heading"}><a href="#">Case read they must</a></h6>
+                                                            <h6 className={"media-heading"}><a href="#">Flooring</a></h6>
                                                             <ul className={"list-inline list-inline-separate text-muted mb-5"}>
                                                                 <li><i className={"icon-book-play position-left"}></i> Video tutorials</li>
-                                                                <li>20 hours ago</li>
+                                                                <li>Fair Lawn, NJ</li>
                                                             </ul>
                                                             On it differed repeated wandered required in. Then girl neat why yet knew rose spot...
                                                         </div>
@@ -192,15 +126,15 @@ var Home = React.createClass({
                                                             <div className={"thumb"}>
                                                                 <a href="#">
                                                                     <img src="assets/images/placeholder.jpg" className={"img-responsive img-rounded media-preview"} alt="" />
-                                                                    <span className={"zoom-image"}><i className={"icon-play3"}></i></span>
+                                                                    <span className={"zoom-image"}></span>
                                                                 </a>
                                                             </div>
                                                         </div>
                                                         <div className={"media-body"}>
-                                                            <h6 className={"media-heading"}><a href="#">Too carriage attended</a></h6>
+                                                            <h6 className={"media-heading"}><a href="#">Roofing</a></h6>
                                                             <ul className={"list-inline list-inline-separate text-muted mb-5"}>
                                                                 <li><i className={"icon-book-play position-left"}></i> FAQ section</li>
-                                                                <li>2 days ago</li>
+                                                                <li>Princeton, NJ</li>
                                                             </ul>
                                                             Marianne or husbands if at stronger ye. Considered is as middletons uncommonly...
                                                         </div>

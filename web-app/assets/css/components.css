@@ -18603,7 +18603,7 @@ thead .htCollapseButton:after {
   background-size: cover;
 }
 .login-container .page-container {
-  padding-top: 40px;
+  /*padding-top: 40px;*/
   position: static;
 }
 .login-container .page-container .login-form {
