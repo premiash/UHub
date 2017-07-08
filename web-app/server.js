@@ -4,47 +4,14 @@ var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var path = require('path');
-
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
+//var flash = require('connect-flash');
 
-//TODO: Require Schemas here 
-var User = require("./models/User.js")
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-// passport.use("local", new LocalStrategy(
-//   function(username, password, cb) {
-//     console.log("Passport test" + username)
-//     //db.users.findByUsername(username, function(err, user) {
-//       User.findByUsername(username, function(err, user) {
-//       if (err) { return cb(err); }
-//       if (!user) { return cb(null, false); }
-//       if (user.password != password) { return cb(null, false); }
-//       return cb(null, user);
-//     });
-//   }));
-
-// passport.serializeUser(function(user, cb) {
-//   cb(null, user.id);
-// });
-
-// passport.deserializeUser(function(id, cb) {
-//   db.users.findById(id, function (err, user) {
-//     if (err) { return cb(err); }
-//     cb(null, user);
-//   });
-// });
+const dbconfig = require('./app/config/db/connection.json');
+require('./app/config/models').connect(dbconfig.dbUri);
 
 // Create Instance of Express
 var app = express();
-// require("./api-routes")(app);
-
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'js');
 
 // Sets an initial port. We'll use this later in our listener
 var PORT = process.env.PORT || 3000;
@@ -63,26 +30,36 @@ app.use(require('express-session')({
 }));
 
 app.use(passport.initialize());
-app.use(flash());
-app.use(passport.session());
+// load passport strategies
+const localSignupStrategy = require('./app/config/passport/local-signup');
+const localLoginStrategy = require('./app/config/passport/local-login');
+passport.use('local-signup', localSignupStrategy);
+passport.use('local-login', localLoginStrategy);
+
+// pass the authorization checker middleware
+const authCheckMiddleware = require('./app/config/middleware/auth-check');
+app.use('/api', authCheckMiddleware);
+
+// routes
+const authRoutes = require('./app/config/routes/auth');
+const apiRoutes = require('./app/config/routes/api');
+app.use('/auth', authRoutes);
+app.use('/api', apiRoutes);
 
 app.use(express.static("./public"));
 app.use('/public/assets/fonts', express.static(path.join(__dirname, './public/assets/fonts')));
 //Limitless Theme
-app.use('/theme', express.static('./public/theme/material/'))
-app.use('/assets', express.static('./public/theme/material/assets')) 
+// app.use('/theme', express.static('./public/theme/material/'))
+// app.use('/assets', express.static('./public/theme/material/assets')) 
 
 //Design prototype
-app.use('/prototype', express.static('./public/theme/material/'))
-app.use('/prototype/home', express.static('./public/theme/material/_uhub_index.html'))
-app.use('/prototype/assets', express.static('./public/theme/material/assets'))
-
-//app.use('/', routes);
-
-// -------------------------------------------------
+// app.use('/prototype', express.static('./public/theme/material/'))
+// app.use('/prototype/home', express.static('./public/theme/material/_uhub_index.html'))
+// app.use('/prototype/assets', express.static('./public/theme/material/assets'))
 
 // MongoDB Configuration configuration (Change this URL to your own DB)
-mongoose.connect("mongodb://sysuhubrw:abc*123@ds161121.mlab.com:61121/heroku_9ln537cf");
+//mongoose.connect("mongodb://sysuhubrw:abc*123@ds161121.mlab.com:61121/heroku_9ln537cf");
+// connect to the database and load models
 var db = mongoose.connection;
 
 db.on("error", function(err) {
@@ -98,69 +75,43 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-// app.post('/consumer-login', (req, res, next) => {
-//     console.log("/consumer-login")
-//     // passport.authenticate("s.shinelin@gmail.com", "shilin123", function(err, res, error){
-//     //     console.log(err)
-//     //     console.log(res)
-//     //     console.log(error)
-//     // })
-//     var username = "s.shinelin@gmail.com"
-//     passport.use(new LocalStrategy(
-//       function(username, password, done) {
-//         User.findOne({ username: username }, function (err, user) {
-//           if (err) { return done(err); }
-//           if (!user) { return done(null, false); }
-//           if (!user.verifyPassword(password)) { return done(null, false); }
-//           return done(null, user);
-//         });
-//       }
-//     ));  
-// });
+app.post('/api/signup', (req, res, next) => {
+  // const validationResult = validateSignupForm(req.body);
+  // if (!validationResult.success) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     message: validationResult.message,
+  //     errors: validationResult.errors
+  //   });
+  // }
 
-app.post('/consumer-login', 
-          passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), 
-          (req, res, next) => {
-            console.log("/consumer-login")
-            req.session.save((err) => {
-                if (err) {
-                    return next(err);
-                }
-                res.redirect('/');
-            });
-});
 
-app.post("/register", function(req, res, next) {
-  console.log(req.body.emailaddress)
-  console.log(req.body.password)
-
-  // Save an empty result object
-  var result = {};
-  result.emailaddress = req.body.emailaddress;
-  result.password = req.body.password;
-
-  User.register(new User({ username : result.emailaddress }), result.password, (err, user) => {
-      if (err) {
-        console.log("auth err")
-        //return res.redirect('/', { error : err.message });
-        res.json({ error : err.message })
+  return passport.authenticate('local-signup', (err) => {
+    if (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        // the 11000 Mongo code is for a duplication email error
+        // the 409 HTTP status code is for conflict error
+        return res.status(409).json({
+          success: false,
+          message: 'Check the form for errors.',
+          errors: {
+            email: 'This email is already taken.'
+          }
+        });
       }
-      res.json({ status : "success" })
-      passport.authenticate('local')(req, res, () => {
-          req.session.save((err) => {
-              if (err) {
-                console.log(err)
-                  //return next(err);
-              }
-              console.log("Authenticated")
-              //return "success"
-              //res.redirect('/');
-          });
+
+      return res.status(400).json({
+        success: false,
+        message: 'Could not process the form.'
       });
-  });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'You have successfully signed up! Now you should be able to log in.'
+    });
+  })(req, res, next);
 });
-
-
 
 // Listener
 app.listen(PORT, function() {
